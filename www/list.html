@@ -1,3 +1,4 @@
+<ons-navigator id="myNavigator" animation="slide" page="list.html">
  <ons-page id="list">
 
   <ons-toolbar>
@@ -12,9 +13,14 @@
             <ons-icon icon="fa-plus"></ons-icon>
         </ons-toolbar-button>
     </div>
-  </ons-toolbar>
+</ons-toolbar>
 
-  <ons-list id="geek-holiday-list"></ons-list>
+<ons-list id="geek-holiday-list">
+    <ons-gesture-detector>
+  <div id="detect-area" style="width: 100px; height: 100px;">
+  </div>
+    </ons-gesture-detector>
+    </ons-list>
 
     <script id="geek-holiday-item" type="text/template">
         <ons-list-item>
@@ -24,7 +30,16 @@
             <div class="label">{{label}}</div>
             <div class="right">
                 <ons-icon style="" icon="fa-trash-o"></ons-icon>
+                <ons-icon style="" icon="pencil"></ons-icon>
+                <ons-button class="push-button">Push page</ons-button>
             </div>
         </ons-list-item>
     </script>
+    <script>
+          document.getElementById("detect-area").addEventListener("doubletap", function(e) {
+    console.log('Swipe left is detected.');
+  });
+    </script>
 </ons-page>
+
+</ons-navigator>

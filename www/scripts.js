@@ -1,4 +1,25 @@
 // This is a JavaScript file
+ons.ready(function() {
+            console.log("scriptsjs!");
+            
+            
+            // Get component instance
+  var myNavigator = document.querySelector("#myNavigator"); // or use getElementById("my-navigator")
+
+  // Add event listener
+  myNavigator.addEventListener('postpush', function(event) {
+    console.log('This function is called after a new page is pushed.');
+  });
+
+  // Call component method
+  myNavigator.pushPage("page2.html");
+
+  // Access to component property
+  console.log(myNavigator.pages);
+
+  // Change component attribute
+  myNavigator.setAttribute('animation', 'fade');
+            });
 
 var geekHoliday = {
     
@@ -8,16 +29,26 @@ var geekHoliday = {
 };
 
 document.addEventListener('init', function(event){
+                      console.log("scriptsjs init event listener!");
+      
+
+   // splitter
     var view = event.target.id;
     
     if(view === 'menu' || view === 'list') {
         geekHoliday[view + 'Init'](event.target);
     }
+    var page = event.target;
+
+
 }, false);
 
 geekHoliday.listInit = function(target) {
+ 
     this.list = document.querySelector('#geek-holiday-list');
     
+    
+
     target.querySelector('#splitter-toggle').addEventListener('click', function() {
         document.querySelector('#splitter-menu').open();
     });
@@ -66,6 +97,18 @@ geekHoliday.refresh = function() {
     var event = {};
     
     items.forEach(function(item, i) {
+        
+        
+        
+        
+               event = {
+           element: children[i].querySelector('ons-button'),
+           function: this.editItem.bind(this, item.label)
+       };
+       this.events.push(event);
+       console.log('clicked button')
+       event.element.addEventListener('click', event.function);
+ 
        event = {
            element: children[i].querySelector('ons-input'),
            function: this.toggleStatus.bind(this, item.label)
@@ -89,6 +132,15 @@ geekHoliday.toggleStatus = function(label) {
     } else {
         ons.notification.alert('Failed to change the status of the holiday.');
     }
+}
+
+geekHoliday.editItem = function(label) {
+      var myNavigator = document.querySelector("#myNavigator"); // or use getElementById("my-navigator")
+
+    console.log("edit item function fires!"+label);
+    myNavigator.pushPage('./addHoliday.html', {data: {title: label}})
+    //document.querySelector('#myNavigator').pushPage('addHoliday.html', {data: {title: label}});
+    this.refresh();
 }
 
 geekHoliday.removeItemPrompt = function(label) {
